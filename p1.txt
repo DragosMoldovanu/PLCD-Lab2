@@ -1,0 +1,16 @@
+int a;
+int b;
+int c;
+int d;
+a=<read>;
+b=<read>;
+c=<read>;
+d=<read>;
+int sum;
+sum=a+b+c;
+if(sum==d){
+	<write>="yes";
+}
+else{
+	<write>="no";
+}
