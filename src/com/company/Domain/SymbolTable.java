@@ -16,7 +16,7 @@ public class SymbolTable {
 
     private void findPosition(IdentifierNode node, String identifier, int id) {
         if (node.getIdentifier().getName().equals(identifier))
-            throw new RuntimeException("Identifier Already Exists");
+            return;
         if (identifier.compareTo(node.getIdentifier().getName()) < 0) {
             if (node.getLeft() == null)
                 node.setLeft(new IdentifierNode(new Identifier(identifier, id)));
@@ -61,5 +61,17 @@ public class SymbolTable {
         if (node.getRight() != null)
             return findNodeById(node.getRight(), id);
         return null;
+    }
+
+    public String toString() {
+        return convertToString(root);
+    }
+
+    private String convertToString(IdentifierNode node) {
+        if (node == null)
+            return "";
+        return node.getIdentifier().getName() + " " + node.getIdentifier().getId() + "\n"
+                + convertToString(node.getLeft())
+                + convertToString(node.getRight());
     }
 }

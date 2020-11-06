@@ -1,0 +1,8 @@
+character = "0"|"1"|...|"9"|"a"|...|"Z";
+string = character,{character};
+
+list = string,"\n",{string,"\n"};
+table = string," ",string," ",string,"\n",{string," ",string," ",string,"\n"};
+
+FA.in.txt = list,"\n",list,"\n",string,"\n\n",list,"\n",table;
+(*states, alphabet, start, final states, transitions*)

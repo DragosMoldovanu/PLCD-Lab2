@@ -1,0 +1,37 @@
+\+ 2
+- 3
+\* 4
+/ 5
+<= 6
+== 7
+>= 8
+> 9
+= 10
+< 11
+\( 12
+\) 13
+\[ 14
+\] 15
+\{ 16
+\} 17
+; 18
+\" 19
+' 20
+
+int 21
+string 22
+char 23
+bool 24
+if 25
+else 26
+read 27
+write 28
+while 29
+true 30
+false 31
+
+INT 1
+CHAR 1
+STRING 1
+BOOL 1
+IDENTIFIER 0

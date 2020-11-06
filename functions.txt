@@ -1,0 +1,90 @@
+Git Repository: https://github.com/DragosMoldovanu/PLCD-Lab2
+
+FUNCTIONS:
+
+
+
+SymbolTable
+
+addNode
+Adds a new Identifier as a node in the Symbol Table BST
+- Input:
+	identifier - String
+	id - Integer
+- Output:
+	-
+- Pre:
+	identifier does not exist already
+	id does not yet exist
+- Post:
+	Symbol Table will have the new node, correctly placed in the BST
+
+
+
+findPosition
+Recursive function for adding a node, parses the tree looking for the correct position
+- Input:
+	node - IdentifierNode, a node from the BST
+	identifier - String
+	id - Integer
+- Output:
+	-
+- Pre:
+	identifier does not exist already
+	id does not yet exist
+- Post:
+	Symbol Table will have the new node, correctly placed in the BST
+
+
+
+getFromName
+Returns the identifier-id pair from the BST, looking for the given identifier
+- Input:
+	identifier - String
+- Output:
+	Identifier - the pair containing the given string
+- Pre:
+	the identifier exists in the BST
+- Post:
+	-
+
+
+
+findNodeByName
+Recursive function for looking for a pair by name
+- Input:
+	node: IdentifierNode - a node from the BST
+	identifier: String
+- Output:
+	Identifier - the pair containing the given string
+- Pre:
+	the identifier exists in the BST
+- Post:
+	-
+
+
+
+getFromId
+Returns the identifier-id pair from the BST, looking for the given id
+- Input:
+	id - Integer
+- Output:
+	Identifier - the pair containing the given integer
+- Pre:
+	the id exists in the BST
+- Post:
+	-
+
+
+
+findNodeById
+Recursive function for looking for a pair by id
+- Input:
+	node: IdentifierNode - a node from the BST
+	id: Integer
+- Output:
+	Identifier - the pair containing the given integer
+- Pre:
+	the id exists in the BST
+- Post:
+	-
