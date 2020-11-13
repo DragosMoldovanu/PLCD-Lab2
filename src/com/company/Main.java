@@ -2,10 +2,13 @@ package com.company;
 
 import com.company.Domain.Scanner;
 import com.company.Domain.SymbolTable;
-import com.company.FiniteAutomatas.FiniteAutomata;
+import com.company.FiniteAutomatas.FiniteAutomaton;
 import com.company.FiniteAutomatas.Line;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -34,11 +37,16 @@ public class Main {
             reader.readLine();
             while (!(data = reader.readLine()).equals(""))
                 finals.add(data);
-            while (!(data = reader.readLine()).equals("")) {
+            while ((data = reader.readLine()) != null) {
                 String[] tokens = data.split(" ");
                 transitions.put(new Line(tokens[0], tokens[1]), tokens[2]);
             }
-            FiniteAutomata FA = new FiniteAutomata(states, alphabet, start, finals, transitions);
+            FiniteAutomaton FA = new FiniteAutomaton(states, alphabet, start, finals, transitions);
+
+            if (!FA.isDeterministic()) {
+                System.out.println("Automaton is not deterministic");
+                return;
+            }
 
             reader = new BufferedReader(new InputStreamReader(System.in));
             while (true) {

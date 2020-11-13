@@ -1,5 +1,8 @@
 package com.company.Domain;
 
+import com.company.FiniteAutomatas.FiniteAutomaton;
+import com.company.FiniteAutomatas.Line;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +17,10 @@ public class Scanner {
     private final ArrayList<Entry> PIF;
     private static int stId = 1;
 
+    private FiniteAutomaton integerAutomata;
+    private FiniteAutomaton booleanAutomata;
+    private FiniteAutomaton identifierAutomata;
+
     public Scanner(SymbolTable table, String inputFile, String tokenFile) {
         this.table = table;
         this.inputFile = inputFile;
@@ -24,6 +31,7 @@ public class Scanner {
         this.PIF = new ArrayList<>();
 
         loadTokens();
+        loadAutomatas();
     }
 
     private void loadTokens() {
@@ -49,6 +57,53 @@ public class Scanner {
             File st = new File("st.out.txt");
             if (st.delete())
                 st.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadAutomatas() {
+        // Read Integer Automata
+        integerAutomata = new FiniteAutomaton();
+        createAutomata(integerAutomata, "integer.txt");
+
+        // Read Boolean Automata
+        booleanAutomata = new FiniteAutomaton();
+        createAutomata(booleanAutomata, "boolean.txt");
+
+        // Read Identifier Automata
+        identifierAutomata = new FiniteAutomaton();
+        createAutomata(identifierAutomata, "identifier.txt");
+    }
+
+    private void createAutomata(FiniteAutomaton automata, String file) {
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            String line;
+            ArrayList<String> states = new ArrayList<>();
+            while (!(line = reader.readLine()).equals("")) {
+                states.add(line);
+            }
+            ArrayList<String> alphabet = new ArrayList<>();
+            while (!(line = reader.readLine()).equals("")) {
+                alphabet.add(line);
+            }
+            String start = reader.readLine();
+            reader.readLine();
+            ArrayList<String> finals = new ArrayList<>();
+            while (!(line = reader.readLine()).equals("")) {
+                finals.add(line);
+            }
+            HashMap<Line, String> transitions = new HashMap<>();
+            while ((line = reader.readLine()) != null) {
+                String[] tokens = line.split(" ");
+                transitions.put(new Line(tokens[0], tokens[1]), tokens[2]);
+            }
+            automata.setStates(states);
+            automata.setAlphabet(alphabet);
+            automata.setStart(start);
+            automata.setFinals(finals);
+            automata.setTransitions(transitions);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,7 +136,7 @@ public class Scanner {
         if (token.equals(""))
             return;
         String separator = null;
-        String[] tokens = {};
+        String[] tokens;
 
         // Check for Strings
         tokens = token.split("\"", -1);
@@ -195,28 +250,17 @@ public class Scanner {
     }
 
     private boolean scanInteger(String token) {
-        if ((token.charAt(0) < '0' || token.charAt(0) > '9') && token.charAt(0) != '-' && token.charAt(0) != '+')
-            return false;
-        if (token.charAt(0) == '0' && token.length() > 1)
-            return false;
-        if (token.charAt(0) == '-' || token.charAt(0) == '+') {
-            if (token.length() == 1)
-                return false;
-            if (token.length() > 2 || token.charAt(1) == '0')
-                return false;
+        if (integerAutomata.isValidPath(token)) {
+            table.addNode("INT", stId);
+            PIF.add(new Entry(types.get("INT"), stId));
+            stId += 1;
+            return true;
         }
-        for (int i = 0; i < token.length(); i++) {
-            if (token.charAt(i) < '0' || token.charAt(i) > '9')
-                return false;
-        }
-        table.addNode("INT", stId);
-        PIF.add(new Entry(types.get("INT"), stId));
-        stId += 1;
-        return true;
+        return false;
     }
 
     private boolean scanBool(String token) {
-        if (token.equals("true") || token.equals("false")) {
+        if (booleanAutomata.isValidPath(token)) {
             table.addNode("BOOL", stId);
             PIF.add(new Entry(types.get("BOOL"), stId));
             stId += 1;
@@ -226,7 +270,7 @@ public class Scanner {
     }
 
     private boolean scanIdentifier(String token) {
-        if ((token.charAt(0) >= 'a' && token.charAt(0) <= 'z') || (token.charAt(0) >= 'A') && token.charAt(0) <= 'Z') {
+        if (identifierAutomata.isValidPath(token)) {
             table.addNode(token, stId);
             PIF.add(new Entry(types.get("IDENTIFIER"), stId));
             stId += 1;
