@@ -14,13 +14,13 @@ import java.util.HashMap;
 
 public class Main {
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         SymbolTable table = new SymbolTable();
         Scanner scanner = new Scanner(table, "p1.txt", "token.in.txt");
         scanner.scan();
-    }*/
+    }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("FA.in.txt")));
             String data;
@@ -84,5 +84,5 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

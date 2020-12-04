@@ -7,7 +7,7 @@ b=<read>;
 c=<read>;
 d=<read>;
 int sum;
-sum=5a+b+05;
+sum=a+b+c;
 if(sum==d){
 	<write>="yes";
 }

@@ -24,8 +24,8 @@ char 23
 bool 24
 if 25
 else 26
-read 27
-write 28
+<read> 27
+<write> 28
 while 29
 true 30
 false 31
